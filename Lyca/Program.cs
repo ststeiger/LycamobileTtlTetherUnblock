@@ -12,7 +12,7 @@ namespace Lyca
         {
             const string PROCFS_IPV4_TTL = "/proc/sys/net/ipv4/ip_default_ttl";
 
-            //Windows Registry Editor Version 5.00
+            // Windows Registry Editor Version 5.00
             // [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\servic es\Tcpip\Parameters]
             // "DefaultTTL"=dword:00000081
 
