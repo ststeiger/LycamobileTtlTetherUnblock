@@ -1,4 +1,5 @@
 ﻿
+
 namespace Lyca
 {
 
@@ -22,7 +23,12 @@ namespace Lyca
                     string oldTTL = System.IO.File.ReadAllText(PROCFS_IPV4_TTL, System.Text.Encoding.UTF8);
                     System.Console.WriteLine("Old default ttl: {0}", oldTTL);
 
-                    System.IO.File.WriteAllText(PROCFS_IPV4_TTL, "85", System.Text.Encoding.UTF8);
+                    // BEWARE: The BOM (Byte-Order-Mark)...
+                    // System.IO.File.WriteAllText(PROCFS_IPV4_TTL, "85", System.Text.Encoding.UTF8);
+                    byte[] ba = System.Text.Encoding.UTF8.GetBytes("85");
+                    System.IO.File.WriteAllBytes(PROCFS_IPV4_TTL, ba);
+
+
                     string newTTL = System.IO.File.ReadAllText(PROCFS_IPV4_TTL, System.Text.Encoding.UTF8);
                     System.Console.WriteLine("New default ttl: {0}", newTTL);
                 }

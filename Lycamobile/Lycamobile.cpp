@@ -2,10 +2,11 @@
 #ifdef __cplusplus
 	#include <cstdio>
 	#include <cstdlib>
-
+	
 	#include <iostream>
 	#include <fstream> // http://www.cprogramming.com/tutorial/lesson10.html
 	// http://stackoverflow.com/questions/7868936/read-file-line-by-line
+	#include <stdexcept>  // for std::runtime_error
 #else
 	#include <stdio.h>
 	#include <stdlib.h>
@@ -13,7 +14,7 @@
 
 #define PROCFS_IPV4_TTL "/proc/sys/net/ipv4/ip_default_ttl"
 
-void PrintDefaultTtl(char* szOldNew)
+void PrintDefaultTtl(const char* szOldNew)
 {
 	printf("%s TTL: ", szOldNew);
 
@@ -26,8 +27,6 @@ void PrintDefaultTtl(char* szOldNew)
 			putchar(c);
 		fclose(file);
 	}
-
-	printf("\n");
 }
 
 void SetDefaultTtl()
@@ -49,6 +48,7 @@ void SetDefaultTtl()
 
 	PrintDefaultTtl("New");
 }
+
 
 #ifdef __cplusplus
 void SetDefaultTtlCpp()
