@@ -1,19 +1,20 @@
 
+#define PROCFS_IPV4_TTL "/proc/sys/net/ipv4/ip_default_ttl"
+
+
 #ifdef __cplusplus
-	#include <cstdio>
-	#include <cstdlib>
+	// #include <cstdio> // Not needed in plain C++ mode 
+	#include <cstdlib> // for EXIT_SUCCESS 
 	
 	#include <iostream>
 	#include <fstream> // http://www.cprogramming.com/tutorial/lesson10.html
-	// http://stackoverflow.com/questions/7868936/read-file-line-by-line
 	#include <stdexcept>  // for std::runtime_error http://en.cppreference.com/w/cpp/error/runtime_error
-	#include <string>
+	#include <string> // for std::string http://stackoverflow.com/questions/7868936/read-file-line-by-line
 #else
 	#include <stdio.h>
 	#include <stdlib.h>
 #endif
 
-#define PROCFS_IPV4_TTL "/proc/sys/net/ipv4/ip_default_ttl"
 
 
 #ifdef __cplusplus
@@ -36,20 +37,19 @@
 	}
 	
 	
-	void SetDefaultTtl()
+	void SetDefaultTtl(int val)
 	{
-		int val = 85;
-		
 		PrintDefaultTtl("Old");
 		
 		std::ofstream file(PROCFS_IPV4_TTL);
 		if (!file.is_open())
 			throw std::runtime_error("Huh, couldn't open  "PROCFS_IPV4_TTL" ... ");
-		file << 85;
+		file << val;
 		file.close();
 		
 		PrintDefaultTtl("New");
 	}
+
 #else 
 
 	void PrintDefaultTtl(const char* szOldNew)
@@ -68,10 +68,8 @@
 	}
 
 
-	void SetDefaultTtl()
+	void SetDefaultTtl(int val)
 	{
-		int val = 85;
-		
 		PrintDefaultTtl("Old");
 		
 		//FILE *f = fopen("/sys/class/backlight/acpi_video0/brightness", "w");
@@ -88,11 +86,11 @@
 		PrintDefaultTtl("New");
 	}
 
-#endif
+#endif 
 
 
 int main(int argc, char* argv[])
 {
-	SetDefaultTtl();
-	return 0;
+	SetDefaultTtl(85);
+	return EXIT_SUCCESS;
 }
