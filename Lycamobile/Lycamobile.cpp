@@ -21,28 +21,34 @@
 	void PrintDefaultTtl(const char* szOldNew)
 	{
 		std::cout << szOldNew << " TTL: ";
-
+		
 		std::string content;
 		std::ifstream file(PROCFS_IPV4_TTL);
 		if (!file.is_open())
 			throw std::runtime_error("Huh, couldn't open  "PROCFS_IPV4_TTL" ... ");
-
+			
 		while (file >> content)
 		{
-			std::cout << content << ' ';
+			std::cout << content << std::endl;
 		}
-
+		
 		file.close();
 	}
-
-
+	
+	
 	void SetDefaultTtl()
 	{
+		int val = 85;
+		
+		PrintDefaultTtl("Old");
+		
 		std::ofstream file(PROCFS_IPV4_TTL);
 		if (!file.is_open())
 			throw std::runtime_error("Huh, couldn't open  "PROCFS_IPV4_TTL" ... ");
 		file << 85;
 		file.close();
+		
+		PrintDefaultTtl("New");
 	}
 #else 
 
@@ -65,12 +71,12 @@
 	void SetDefaultTtl()
 	{
 		int val = 85;
-
+		
 		PrintDefaultTtl("Old");
-
+		
 		//FILE *f = fopen("/sys/class/backlight/acpi_video0/brightness", "w");
 		FILE *f = fopen(PROCFS_IPV4_TTL, "w");
-
+		
 		if (!f)
 		{
 			fprintf(stderr, "Huh, couldn't open  "PROCFS_IPV4_TTL" ... ");
